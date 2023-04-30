@@ -1,0 +1,59 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Մուտք համակարգ";
+    Layout = "/Pages/Shared/_LayoutFullScreen.cshtml";
+}
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-9">
+            <br />
+            <br />
+            <div class="card-group">
+                <div class="card-header text-white bg-info" style="flex:0.8">
+                    <div class="card-body text-center">
+                        <div>
+                            <h5>Mer Soft LLC</h5>
+                            <h5>Ադմինիստրատիվ մաս</h5>
+                            <hr class="bg-white" />
+                            <div class="right-img">
+                                <img src="~/images/Logo/logo.png" style="width:50%" />
+                            </div>
+                            <hr class="bg-white" />
+                        </div>
+                    </div>
+                </div>
+                <div class="card p-4">
+                    <div class="card-body">
+
+                        <div style="text-align:center">
+                            <div class="card-header text-white bg-info">
+                                <h5>ERP Integration UI</h5>
+                            </div>
+                            <div>
+                                <br /><br />
+                            </div>
+                            <div>
+                                <br />
+                            </div>
+                            <div class="card-header" style="padding:0">
+                                <div class="alert alert-warning" style="margin:0">
+                                    <i class="icon-info"> Համակարգը կիրառելու համար անհրաժեշտ է մուտք գործել</i>
+                                </div>
+                            </div>
+                            <div>
+                                <br /><br />
+                            </div>
+                            <div class="card-header">
+                                <a class="btn btn-lg btn-info" href="/Login/Login" style="color:white; margin-right:20px"><i class="nav-icon icon-login"></i> Մուտք</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+

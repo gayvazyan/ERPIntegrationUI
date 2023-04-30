@@ -1,0 +1,88 @@
+﻿@page
+@model LoginModel
+@{
+    ViewData["Title"] = "Մուտք համակարգ";
+    Layout = "/Pages/Shared/_LayoutFullScreen.cshtml";
+
+}
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-9">
+            <br />
+            <br />
+            <div class="card-group">
+                <div class="card p-4">
+                    <div class="card-body">
+                        <form id="account" method="post">
+                            <div class="card-header text-white bg-info">
+                                <h5><i class="nav-icon icon-lock-open"></i>  Մուտք գործեք Ձեր գործարկողով</h5>
+                            </div>
+                            <hr />
+                            <div>
+                                <partial name="_ValidationSummary" />
+                                @if (Model.Errors.Count > 0)
+                                {
+                                    <div class="alert alert-danger" role="alert">
+                                        <ul>
+                                            @foreach (var error in Model.Errors)
+                                            {
+                                                <li>@error.Code: @error.Description</li>
+                                            }
+                                        </ul>
+                                    </div>
+                                }
+                            </div>
+                            <div class="row">
+                                <div class="col-6">
+                                    <label> <i class="nav-icon icon-user"></i> Մուտքանուն  </label>
+                                    <input type="text" asp-for="Input.Email" class="form-control" />
+                                    <span asp-validation-for="Input.Email" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="row margin-top-20">
+                                <div class="col-6">
+                                    <label><i class="nav-icon icon-lock"></i> Գաղտնաբառ</label>
+                                    <input type="password"  asp-for="Input.Password" class="form-control" />
+                                    <span asp-validation-for="Input.Password" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <br />
+                            <hr />
+                            <div class="row margin-top-20">
+                                <div class="col-12">
+                                    <button type="submit" class="btn btn-lg btn-success px-4"><i class="nav-icon icon-login"></i> Մուտք</button>
+                                    <a class="btn btn-lg btn-danger px-4" href="/"><i class="nav-icon icon-action-undo"></i> Չեղարկել</a>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="card-header text-white bg-success" style="flex:0.8">
+                    <div class="card-body text-center">
+                        <div>
+                            <h5>ERP Integration UI</h5>
+                            <h5>Ադմինիստրատիվ մաս</h5>
+                            <hr class="bg-white" />
+                            <div class="right-img">
+                                <img src="~/images/Logo/logo.png" style="width:50%"  />
+                            </div>
+                            <hr class="bg-white" />
+                            <p class="margin-top-10 text-left text-center">
+                                <h6><i class="nav-icon icon-info"></i> Համակարգը նախատեսված է նոր օգտագործող ավելացնելու համար:</h6>
+                            </p>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
+

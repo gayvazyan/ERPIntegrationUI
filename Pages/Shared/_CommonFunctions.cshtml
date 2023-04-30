@@ -1,0 +1,50 @@
+﻿<script>
+        function Clear() {
+        $(".searchCard input, .searchCard select").val("");
+        $("#CurrentPage").val(1);
+        $("#form").submit();
+    }
+    function Search() {
+        $("#CurrentPage").val(1);
+        $("#form").submit();
+    }
+    
+    //Show search block
+    $(".searchCard input, .searchCard select").each(function () {
+        var shown = false;
+        if ($(this).is("input[type='checkbox']")) {
+            if ($(this).is(":checked")) {
+                shown = true;
+            }
+        }
+        if ($(this).is("input[type='text']")) {
+            if($(this).val()!=''){
+                shown = true;
+                $(this).addClass("x");
+            }
+        }
+        if ($(this).is("input[type='date']")) {
+            if ($(this).val() != '') {
+                shown = true;
+                $(this).addClass("x");
+            }
+        }
+        if ($(this).is("select")) {
+            if ($(this).val() != '') {
+                shown = true;
+                $(this).addClass("x");
+            }
+        }
+        if (shown) {
+            $(".collapse").addClass("show");
+            $(".btn-minimize i").removeClass("btn-danger").addClass("btn-primary");
+            el = null;
+            $("#simpleList tr").css('cursor', 'default');
+            $("#warnBtn, #succsessMsg").hide();
+            return false;
+        }
+        else {
+            el = document.getElementById('simpleList');
+        }
+    });
+</script>

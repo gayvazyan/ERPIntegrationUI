@@ -1,0 +1,44 @@
+﻿@page
+@model LogoutModel
+@{
+    ViewData["Title"] = "Ելք համակարգից";
+    Layout = "/Pages/Shared/_LayoutFullScreen.cshtml";
+}
+<br />
+<br />
+<br />
+<div style="width:600px" class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-9">
+            <div class="card-group">
+                <div class="card p-4">
+                    <div class="card-body">
+                        <div class="col-10 ">
+                            <div class="card-body p-0 d-flex align-items-center">
+                                <i class="nav-icon icon-lock bg-success p-4 px-5 font-2xl mr-3 text-white"></i>
+                                <div>
+                                    <div class="text-value-sm text-info"> Ելք համակարգից</div>
+                                </div>
+                            </div>
+                        </div>
+                        <hr />
+                        <div class="form-group">
+                            <label><i class="nav-icon icon-question"></i> Ցանկանու՞մ եք դուրս գալ համակարգից:</label>
+                        </div>
+                        <hr />
+                        <form class="form-inline" method="post">
+                            <div class="row">
+                                <div class="col-12">
+                                    <button type="submit" class="btn btn-lg btn-success px-4"><i class="nav-icon icon-logout"></i>  Ելք</button>
+                                    <a class="btn btn-lg btn-danger px-4" href="/Index"><i class="nav-icon icon-action-undo"></i> Չեղարկել</a>
+                                </div>
+
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

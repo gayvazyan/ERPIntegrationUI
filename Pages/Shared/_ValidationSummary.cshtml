@@ -1,0 +1,22 @@
+﻿@*@using Microsoft.Extensions.Localization
+@inject IStringLocalizer<SharedResources> _sharedLocalizer*@
+@if (ViewContext.ModelState.IsValid == false)
+{
+    <div class="alert alert-danger" style="margin-top:10px">
+        <strong>Error</strong>
+        @*<div asp-validation-summary="All"* class="danger"></div>*@
+        <div class="danger">
+
+            @*@foreach (var error in ViewData.ModelState.SelectMany(x => x.Value.Errors))
+                {
+                    @Html.Raw(error.ErrorMessage)
+                }*@
+            <ul>
+                @foreach (var error in ViewData.ModelState.SelectMany(x => x.Value.Errors))
+                {
+                    <li>@Html.Raw(error.ErrorMessage)</li>
+                }
+            </ul>
+        </div>
+    </div>
+}

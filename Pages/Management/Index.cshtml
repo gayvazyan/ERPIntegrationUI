@@ -1,0 +1,39 @@
+﻿@page
+@model lega.Pages.Management.IndexModel
+@inject IHttpContextAccessor HttpContextAccessor
+
+
+@{
+    ViewData["Title"] = "ERP Integration";
+    Layout = "/Pages/Shared/_LayoutAdmin.cshtml";
+}
+
+
+<br />
+<br />
+<br />
+<div style="width:700px" class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-9">
+            <div class="card-group">
+                <div class="card p-4">
+                    <div class="card-body">
+                        <div class="col-10 ">
+                            <div class="card-body p-0 d-flex align-items-center">
+                                <i class="nav-icon icon-people bg-success p-4 px-5 font-2xl mr-3 text-white"></i>
+                                <div>
+                                    <div class="text-value-sm text-info">Բարի գալուստ</div>
+                                </div>
+                            </div>
+                        </div>
+                        <hr />
+                        <div class="form-group">
+                            <label>ERP Integration համակարգի ադմինիստրատիվ վահանակ</label>
+                        </div>
+                        <hr />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

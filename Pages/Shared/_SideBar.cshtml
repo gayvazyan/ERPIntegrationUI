@@ -1,0 +1,62 @@
+﻿@inject IHttpContextAccessor HttpContextAccessor
+
+
+<div class="sidebar">
+    <nav class="sidebar-nav">
+        <ul class="nav">
+            @if (HttpContextAccessor.HttpContext.Session.GetString("token") != string.Empty)
+            {
+                <li class="nav-title">Կառավարման մենյու</li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/Management/Carousels">
+                        <i class="nav-icon icon-note"></i> Սլայդներ
+                    </a>
+                </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="/Management/Abouts">
+                        <i class="nav-icon icon-home"></i> Մեր մասին
+                    </a>
+                </li>
+                 <li class="nav-item">
+                    <a class="nav-link" href="/Management/Services">
+                        <i class="nav-icon icon-list"></i> Ծառայություններ
+                    </a>
+                </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="/Management/Customers">
+                        <i class="nav-icon icon-people"></i> Հաճախորդներ
+                    </a>
+                </li>
+                 <li class="nav-item">
+                    <a class="nav-link" href="/Management/Pricings">
+                        <i class="nav-icon icon-chart"></i> Փաթեթներ
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/Management/Newss">
+                        <i class="nav-icon icon-info"></i> Նորություններ
+                    </a>
+                </li>
+                 <li class="nav-item">
+                    <a class="nav-link" href="/Management/Contacts">
+                        <i class="nav-icon icon-key"></i> Կապ
+                    </a>
+                </li>
+            }
+            <li class="nav-item mt-auto">
+                <a target="_blank" class="nav-link nav-link-success" href="https://www.mersoft.am/hy">
+                    <i class="nav-icon icon-globe"></i>WEB կայք
+                </a>
+            </li>
+            @if (HttpContextAccessor.HttpContext.Session.GetString("token") != string.Empty)
+            {
+                <li class="nav-item">
+                    <a class="nav-link nav-link-info" href="/Login/Logout" target="_top">
+                        <i class="nav-icon icon-logout"></i> ԵԼՔ համակարգից
+                    </a>
+                </li>
+            }
+        </ul>
+    </nav>
+    <button class="sidebar-minimizer brand-minimizer" type="button"></button>
+</div>
