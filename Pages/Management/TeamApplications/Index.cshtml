@@ -1,0 +1,166 @@
+﻿@page "{teamIdentificator:Guid}"
+@model ERP.IntegrationUI.Pages.Management.TeamApplications.IndexModel
+
+@inject IHttpContextAccessor HttpContextAccessor
+
+@{
+    ViewData["Title"] = "Team Applications";
+    Layout = "/Pages/Shared/_LayoutAdmin.cshtml";
+
+}
+
+@if (HttpContextAccessor.HttpContext.Session.GetString("token") != string.Empty)
+{
+    <form method="post" id="form">
+        <input type="hidden" asp-for="@Model.CurrentPage" value="@Model.CurrentPage" />
+        <div class="card margin-top-20">
+            @* ----- START Toolbar ---- *@
+            <div class="card-header" style="padding:5px;">
+                <a href="/Management/TeamApplications/Create" class="btn btn-success" title="Ավելացնել">  <i class="nav-icon icon-plus"></i> Ավելացնել</a>
+                <div class="card-header-actions" style="margin-right:5px;">
+                    <a class=" btn btn-secondary text-white" data-toggle="collapse" data-target="#collapseSearch" aria-expanded="true">
+                        <i class="nav-icon icon-magnifier"></i>
+                    </a>
+                </div>
+            </div>
+
+            @* ----- END Toolbar ---- *@
+
+            @* ----- START Search ---- *@
+
+            <div class="collapse" id="collapseSearch">
+                <div class="card-body row searchCard" style="padding-bottom:0">
+                    <div class="col-lg-3">
+                        <div class="input-group mb-3">
+                            <input class="form-control clearable" type="text" asp-for="Input.ApplicationName" placeholder="անուն">
+                        </div>
+                    </div>
+                    <div class="col-lg-3">
+                        <div class="input-group mb-3">
+                            <input class="form-control clearable" type="text" asp-for="Input.CredentialSchemes" placeholder="credentialSchemes">
+                        </div>
+                    </div>
+                    <div class="col-lg-6 search-btn-block" style="min-width:205px;text-align:right;">
+                        <a class="btn btn-primary text-white" onclick="Search()"><i class="nav-icon icon-magnifier"></i> Որոնել</a>
+                        <a class="btn btn-danger text-white" onclick="Clear()">  <i class="nav-icon icon-refresh"></i> Մաքրել</a>
+
+                    </div>
+                </div>
+            </div>
+            @* ----- END Search ---- *@
+
+            @* ----- START Grid ---- *@
+            <div class="grid card-body p-0">
+                <table class="table table-responsive-sm table-striped">
+                    <thead>
+                        <tr style="text-align:center;color:black">
+                            <td><b>ApplicationName</b></td>
+                            <td style="max-width:50px"><b>CredentialSchemes</b></td>
+                            <td><b>AuthenticationType</b></td>
+                            <td><b>ExternalPortalSubscriptionUser</b></td>
+
+                            <td class="commands"><b>Հրամաններ</b></td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.InputList)
+                        {
+                            <tr style="text-align:center;color:black">
+                                <td>@item.ApplicationName</td>
+                                <td>@item.CredentialSchemes</td>
+                                <td>@item.AuthenticationType</td>
+                                <td>@item.ExternalPortalSubscriptionUser</td>
+                                <td style="min-width:200px" class="commands">
+
+                                    @if (item.TeamApplicationMethods?.Count() > 0)
+                                    {
+                                        <a class="btn btn-success text-white" href="/Management/TeamApplicationMethods/@item.Id" title="View TeamApplicationMethods">
+                                            <i class="nav-icon icon-user"></i> TeamApplicationMethods (@item.TeamApplicationMethods?.Count())
+                                        </a>
+
+                                    }
+
+
+                                    <a class="btn btn-info text-white" href="/Management/TeamApplications/Update/@item.Id" title="Խմբագրել">
+                                        <i class="nav-icon icon-pencil"></i>
+                                    </a>
+
+                                    <a class="btn btn-danger" href="/Management/TeamApplications/Delete/@item.Id" title="Հեռացնել">
+                                        <i class="nav-icon icon-trash"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            @* ----- END Grid ---- *@
+        </div>
+    </form>
+
+    @* ----- Start Pagination ---- *@
+    <nav aria-label="Page navigation example">
+        <ul class="pagination" style="margin-left: 30px;">
+            <li class="page-item @(!Model.ShowFirst? "disabled":"")">
+                <a asp-page="/Management/TeamApplications/Index" asp-route-CurrentPage="1" class="page-link"><i class="nav-icon icon-control-start"></i></a>
+            </li>
+
+            @if ((Model.CurrentPage) == 1)
+            {
+                <li class="page-item @(!Model.ShowPrevious? "disabled":"")">
+                    <a asp-page="/Management/TeamApplications/Index" asp-route-CurrentPage="@(Model.CurrentPage)" class="page-link">@(Model.CurrentPage)</a>
+                </li>
+
+                <li class="page-item  @(!Model.ShowNext? "disabled":"")">
+                    <a asp-page="/Management/TeamApplications/Index" asp-route-CurrentPage="@(Model.CurrentPage + 1)" class="page-link">@(Model.CurrentPage + 1)</a>
+                </li>
+            }
+            else
+            {
+                @if (Model.CurrentPage < Model.TotalPages)
+                {
+                    <li class="page-item @(!Model.ShowPrevious? "disabled":"")">
+                        <a asp-page="/Management/TeamApplications/Index" asp-route-CurrentPage="@(Model.CurrentPage -1)" class="page-link">@(Model.CurrentPage - 1)</a>
+                    </li>
+                    <li class="page-item @(!Model.ShowPrevious? "disabled":"disabled")">
+                        <a asp-page="/Management/TeamApplications/Index" asp-route-CurrentPage="@(Model.CurrentPage)" class="page-link">@(Model.CurrentPage)</a>
+                    </li>
+                    <li class="page-item  @(!Model.ShowNext? "disabled":"")">
+                        <a asp-page="/Management/TeamApplications/Index" asp-route-CurrentPage="@(Model.CurrentPage + 1)" class="page-link">@(Model.CurrentPage + 1)</a>
+                    </li>
+                }
+                else
+                {
+                    <li class="page-item @(!Model.ShowPrevious? "disabled":"")">
+                        <a asp-page="/Management/TeamApplications/Index" asp-route-CurrentPage="@(Model.CurrentPage -1)" class="page-link">@(Model.CurrentPage - 1)</a>
+                    </li>
+                    <li class="page-item @(!Model.ShowPrevious? "disabled":"disabled")">
+                        <a asp-page="/Management/TeamApplications/Index" asp-route-CurrentPage="@(Model.CurrentPage)" class="page-link">@(Model.CurrentPage)</a>
+                    </li>
+                }
+
+            }
+
+            <li class="page-item  @(!Model.ShowLast? "disabled":"")">
+                <a asp-page="/Management/TeamApplications/Index" asp-route-CurrentPage="@Model.TotalPages" class="page-link">  <i class="nav-icon icon-control-end"></i></a>
+            </li>
+        </ul>
+    </nav>
+    @* ----- End Pagination ---- *@
+}
+else
+{
+    <div class="alert alert-danger m-3" role="alert">
+        <h5>Այս տվյալներին հասանելիություն չունեք։</h5>
+    </div>
+}
+
+
+
+
+
+@section Scripts {
+    <partial name="_CommonFunctions" />
+}
+
+

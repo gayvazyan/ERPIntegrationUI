@@ -8,7 +8,83 @@
         $("#CurrentPage").val(1);
         $("#form").submit();
     }
+
+    function Activated(idUI) {
+        $.ajax({
+            type: "get",
+            url: "/Common/EnableDisable",
+            contentType: 'application/json',
+            data: { idUI: idUI },
+
+            beforeSend: function () {
+                $("#loading").show();
+            },
+
+            success: function (message) {
+                if (message == "true") {
+                    alert("Owner-ը հաջողությամբ ապաակտիվացվեց");
+                }
+                else if (message == "false") {
+                    alert("Owner-ը հաջողությամբ ակտիվացվեց");
+                }
+                else if (message == "null") {
+                    alert("Owner նշված չէ");
+                }
+                else {
+                    alert(message);
+                }
+
+            },
+
+            error: function () {
+                alert("Server Error!");
+            },
+
+            complete: function () {
+                location.reload();
+            }
+        });
+    }
     
+
+    function ShowUserInfo(teamIdentificator) {
+        $.ajax({
+            type: "get",
+            url: "/Common/GetAdminUser",
+            contentType: 'application/json',
+            data: { teamIdentificator: teamIdentificator },
+
+            beforeSend: function () {
+                $("#loading").show();
+            },
+
+            success: function (message) {
+                if (message == "true") {
+                    alert("Owner-ը հաջողությամբ ապաակտիվացվեց");
+                }
+                else if (message == "false") {
+                    alert("Owner-ը հաջողությամբ ակտիվացվեց");
+                }
+                else if (message == "null") {
+                    alert("Owner նշված չէ");
+                }
+                else {
+                    alert(message);
+                }
+
+            },
+
+            error: function () {
+                alert("Server Error!");
+            },
+
+            complete: function () {
+                location.reload();
+            }
+        });
+    }
+
+
     //Show search block
     $(".searchCard input, .searchCard select").each(function () {
         var shown = false;

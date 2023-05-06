@@ -1,6 +1,4 @@
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.IdentityModel.Tokens;
-using System.Text;
+using ERP.IntegrationUI;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -13,6 +11,11 @@ builder.Services.AddHttpContextAccessor();
 builder.Services.AddSession(s => s.IdleTimeout = TimeSpan.FromMinutes(30));
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession();
+
+
+//add to injections
+
+ServicesInitializer.ConfigureServices(builder.Services);
 
 
 builder.Services.AddRazorPages();
@@ -38,6 +41,7 @@ app.UseSession();
 app.UseAuthentication();    
 app.UseAuthorization();
 
+app.MapControllers();
 app.MapRazorPages();
 
 app.Run();
