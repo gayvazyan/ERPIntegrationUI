@@ -31,12 +31,12 @@
                 <div class="card-body row searchCard" style="padding-bottom:0">
                     <div class="col-lg-3">
                         <div class="input-group mb-3">
-                            <input class="form-control clearable" type="text" asp-for="Input.Description" placeholder="նկարագրություն">
+                            <input class="form-control clearable" type="text" asp-for="Input.Name" placeholder="անուն">
                         </div>
                     </div>
                     <div class="col-lg-3">
                         <div class="input-group mb-3">
-                            <input class="form-control clearable" type="text" asp-for="Input.Name" placeholder="անուն">
+                            <input class="form-control clearable" type="text" asp-for="Input.Description" placeholder="նկարագրություն">
                         </div>
                     </div>
                     <div class="col-lg-6 search-btn-block" style="min-width:205px;text-align:right;">
@@ -77,6 +77,10 @@
                                 {
                                     <td><i class="nav-icon icon-check"></i></td>
                                 }
+                                else
+                                {
+                                    <td></td>
+                                }
                                 <td style="min-width:200px" class="commands">
 
                                    @* @if (item.IsActive == true)
@@ -92,20 +96,25 @@
                                     }*@
                                     @if (item.Teams?.Count() > 0 )
                                     {
-                                        <a class="btn btn-success text-white" href="/Management/Teams/@item.Id" title="View Teams">
-                                            <i class="nav-icon icon-user"></i> Teams (@item.Teams?.Count())
+                                        <a class="btn btn-success text-white" href="/Management/Teams/@item.Id/@item.Name" title="View Teams">
+                                            Teams (@item.Teams?.Count())
                                         </a>
-
                                     }
-                                   
+                                    else
+                                    {
+                                        <a class="btn btn-success text-white" href="/Management/Teams/Create/@item.Id/@item.Name" title="Ավելացնել Team">
+                                            <i class="nav-icon icon-plus"></i> Ավելացնել Team
+                                        </a>
+                                    }
+
                                     
                                     <a class="btn btn-info text-white" href="/Management/Owners/Update/@item.Id" title="Խմբագրել">
                                         <i class="nav-icon icon-pencil"></i>
                                     </a>
 
-                                    <a class="btn btn-danger" href="/Management/Owners/Delete/@item.Id" title="Հեռացնել">
+                                    @*<a class="btn btn-danger" href="/Management/Owners/Delete/@item.Id" title="Հեռացնել">
                                         <i class="nav-icon icon-trash"></i>
-                                    </a>
+                                    </a>*@
                                 </td>
                             </tr>
                         }
@@ -172,8 +181,6 @@ else
         <h5>Այս տվյալներին հասանելիություն չունեք։</h5>
     </div>
 }
-
-
 
 
 

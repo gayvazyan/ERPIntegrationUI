@@ -22,6 +22,8 @@ namespace ERP.IntegrationUI.Models.Integration
         /// </summary>
         public string IntegrationUserPrefix { get; set; }
 
+        public string ErpAdminUserName { get; set; }
+
         public IList<TeamApplicationReadModel> TeamApplications { get; set; }
 
         public IList<IntegrationUserReadModel> IntegrationUsers { get; set; }

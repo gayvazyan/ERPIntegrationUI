@@ -58,9 +58,9 @@ namespace ERP.IntegrationUI.Pages.Management.Owners
                 ownerList = ownerList.Where(p => p.Description.ToUpper().Contains(Input.Description.ToUpper())).ToList();
             }
 
-            if (Input.FirstName != null)
+            if (Input.Name != null)
             {
-                ownerList = ownerList.Where(p => p.FirstName.ToUpper().Contains(Input.FirstName.ToUpper())).ToList();
+                ownerList = ownerList.Where(p => p.Name.ToUpper().Contains(Input.Name.ToUpper())).ToList();
             }
 
             OwnerList = _ownerRepasitory.GetPaginatedResult(ownerList, CurrentPage, PageSize);

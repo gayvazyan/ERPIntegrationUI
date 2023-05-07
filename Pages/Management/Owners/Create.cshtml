@@ -1,0 +1,99 @@
+﻿@page
+@model ERP.IntegrationUI.Pages.Management.Owners.CreateModel
+
+@inject IHttpContextAccessor HttpContextAccessor
+@{
+    ViewData["Title"] = "Ավելացնել Owner";
+    Layout = "/Pages/Shared/_LayoutAdmin.cshtml";
+}
+
+@if (HttpContextAccessor.HttpContext.Session.GetString("token") != string.Empty)
+{
+    <form method="post" enctype="multipart/form-data">
+        <div class="card card-input">
+            <div class="card-body p-0 d-flex align-items-center">
+                <i class="nav-icon icon-check bg-success p-4 px-5 font-2xl mr-3 text-white"></i>
+                <div>
+                    <div class="text-value-sm text-info">@ViewData["Title"]</div>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-body row">
+                <div class="m-3 p-3 w-100" style="max-width:900px">
+                    <div>
+                        <partial name="_ValidationSummary" />
+                        @if (Model.Errors.Count > 0)
+                        {
+                            <div class="alert alert-danger" role="alert">
+                                <ul>
+                                    @foreach (var error in Model.Errors)
+                                    {
+                                        <li>@error.Code: @error.Description</li>
+                                    }
+                                </ul>
+                            </div>
+                        }
+                    </div>
+
+                    <div class="row">
+                        <div class="col-6">
+                            <label class="text-info" asp-for="Create.Name">Name</label>
+                            <input class="form-control" type="text" asp-for="Create.Name">
+                            <span asp-validation-for="Create.Name" class="text-danger"></span>
+                        </div>
+                        <div class="col-6">
+                            <label class="text-info" asp-for="Create.Description">Description</label>
+                            <input class="form-control" type="text" asp-for="Create.Description">
+                            <span asp-validation-for="Create.Description" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <br />
+                    <div class="row">
+                        <div class="col-6">
+                            <label class="text-info" asp-for="Create.FirstName">First Name</label>
+                            <input class="form-control" type="text" asp-for="Create.FirstName">
+                            <span asp-validation-for="Create.FirstName" class="text-danger"></span>
+                        </div>
+                        <div class="col-6">
+                            <label class="text-info" asp-for="Create.LastName">Last Name</label>
+                            <input class="form-control" type="text" asp-for="Create.LastName">
+                            <span asp-validation-for="Create.LastName" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <br />
+                    <div class="row">
+                        <div class="col-6">
+                            <label class="text-info" asp-for="Create.AdditionalData">Additional Data</label>
+                            <input class="form-control" type="text" asp-for="Create.AdditionalData">
+                            <span asp-validation-for="Create.AdditionalData" class="text-danger"></span>
+                        </div>
+                        <div class="col-6">
+                            <label class="text-info" asp-for="Create.IsActive">Is Active</label>
+                            <input class="form-control" type="checkbox" asp-for="Create.IsActive">
+                            <span asp-validation-for="Create.IsActive" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <br />
+                    <div style="height:20px"></div>
+                    <div class="row border-top margin-top-20" style="padding-top:20px">
+                        <div class="col-12">
+                            <button class="btn btn-success text-white"> <i class="nav-icon icon-check"></i> Ստեղծել</button>
+                            <a class="btn btn-secondary" asp-page="/Management/Owners/Index"> <i class="nav-icon icon-close"></i> Չեղարկել</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+
+}
+
+else
+{
+    <div class="alert alert-danger m-3" role="alert">
+        <h5>Այս տվյալներին հասանելիություն չունեք։</h5>
+    </div>
+}
+
+

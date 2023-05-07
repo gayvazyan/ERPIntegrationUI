@@ -1,4 +1,4 @@
-﻿@page "{id:Guid}"
+﻿@page "{id:Guid}/{name}"
 @model ERP.IntegrationUI.Pages.Management.Teams.IndexModel
 
 @inject IHttpContextAccessor HttpContextAccessor
@@ -13,11 +13,13 @@
 {
     <form method="post" id="form">
         <input type="hidden" asp-for="@Model.CurrentPage" value="@Model.CurrentPage" />
+        <input type="hidden" asp-for="@Model.OwnerId" value="@Model.OwnerId" />
+        <input type="hidden" asp-for="@Model.OwnerName" value="@Model.OwnerName" />
         <div class="card margin-top-20">
             @* ----- START Toolbar ---- *@
             <div class="card-header" style="padding:5px;">
-                <a href="/Management/Teams/Create" class="btn btn-success" title="Ավելացնել">  <i class="nav-icon icon-plus"></i> Ավելացնել</a>
-                <a class="btn btn-info" title="Owner"> <i class="nav-icon icon-user"></i> Owner - @Model.OwnerName</a>
+                <a href="/Management/Teams/Create/@Model.OwnerId/@Model.OwnerName" class="btn btn-success" title="Ավելացնել">  <i class="nav-icon icon-plus"></i> Ավելացնել</a>
+                <a class="btn btn-info" title="Owner"> Owner name - <b>@Model.OwnerName</b></a>
                 <div class="card-header-actions" style="margin-right:5px;">
                     <a class=" btn btn-secondary text-white" data-toggle="collapse" data-target="#collapseSearch" aria-expanded="true">
                         <i class="nav-icon icon-magnifier"></i>
@@ -33,12 +35,12 @@
                 <div class="card-body row searchCard" style="padding-bottom:0">
                     <div class="col-lg-3">
                         <div class="input-group mb-3">
-                            <input class="form-control clearable" type="text" asp-for="Input.Description" placeholder="նկարագրություն">
+                            <input class="form-control clearable" type="text" asp-for="Input.Name" placeholder="անուն">
                         </div>
                     </div>
                     <div class="col-lg-3">
                         <div class="input-group mb-3">
-                            <input class="form-control clearable" type="text" asp-for="Input.Name" placeholder="անուն">
+                            <input class="form-control clearable" type="text" asp-for="Input.Description" placeholder="նկարագրություն">
                         </div>
                     </div>
                     <div class="col-lg-6 search-btn-block" style="min-width:205px;text-align:right;">
@@ -78,18 +80,23 @@
                                 {
                                     <td><i class="nav-icon icon-check"></i></td>
                                 }
+                                else
+                                {
+                                    <td></td>
+                                }
 
                                 <td style="min-width:200px" class="commands">
-
-                                    @*<a class="btn btn-info text-white" href="/Management/Teams/@item.Id" title="View Teams">
-                                        <i class="nav-icon icon-pencil"></i>
-                                    </a>*@
                                     @if (item.TeamApplications?.Count() > 0)
                                     {
                                         <a class="btn btn-success text-white" href="/Management/TeamApplications/@item.TeamIdentificator" title="View TeamApplications">
-                                            <i class="nav-icon icon-user"></i> TeamApplications (@item.TeamApplications?.Count())
+                                           TeamApplications (@item.TeamApplications?.Count())
                                         </a>
-
+                                    }
+                                    else
+                                    {
+                                        <a class="btn btn-success text-white" href="/Management/TeamApplications/Create/@item.Id" title="Ավելացնել Team">
+                                            <i class="nav-icon icon-plus"></i> Ավելացնել Team Application
+                                        </a>
                                     }
 
                                    @{
@@ -101,9 +108,9 @@
                                         <i class="nav-icon icon-pencil"></i>
                                     </a>
 
-                                    <a class="btn btn-danger" href="/Management/Teams/Delete/@item.Id" title="Հեռացնել">
+                                   @* <a class="btn btn-danger" href="/Management/Teams/Delete/@item.Id" title="Հեռացնել">
                                         <i class="nav-icon icon-trash"></i>
-                                    </a>
+                                    </a>*@
                                 </td>
                             </tr>
                         }
@@ -120,17 +127,17 @@
     <nav aria-label="Page navigation example">
         <ul class="pagination" style="margin-left: 30px;">
             <li class="page-item @(!Model.ShowFirst? "disabled":"")">
-                <a asp-page="/Management/Teams/Index" asp-route-CurrentPage="1" class="page-link"><i class="nav-icon icon-control-start"></i></a>
+                <a asp-page="/Management/Teams/Index/@Model.OwnerId/@Model.OwnerName" asp-route-CurrentPage="1" class="page-link"><i class="nav-icon icon-control-start"></i></a>
             </li>
 
             @if ((Model.CurrentPage) == 1)
             {
                 <li class="page-item @(!Model.ShowPrevious? "disabled":"")">
-                    <a asp-page="/Management/Teams/Index" asp-route-CurrentPage="@(Model.CurrentPage)" class="page-link">@(Model.CurrentPage)</a>
+                    <a asp-page="/Management/Teams/Index/@Model.OwnerId/@Model.OwnerName" asp-route-CurrentPage="@(Model.CurrentPage)" class="page-link">@(Model.CurrentPage)</a>
                 </li>
 
                 <li class="page-item  @(!Model.ShowNext? "disabled":"")">
-                    <a asp-page="/Management/Teams/Index" asp-route-CurrentPage="@(Model.CurrentPage + 1)" class="page-link">@(Model.CurrentPage + 1)</a>
+                    <a asp-page="/Management/Teams/Index/@Model.OwnerId/@Model.OwnerName" asp-route-CurrentPage="@(Model.CurrentPage + 1)" class="page-link">@(Model.CurrentPage + 1)</a>
                 </li>
             }
             else
@@ -138,29 +145,29 @@
                 @if (Model.CurrentPage < Model.TotalPages)
                 {
                     <li class="page-item @(!Model.ShowPrevious? "disabled":"")">
-                        <a asp-page="/Management/Teams/Index" asp-route-CurrentPage="@(Model.CurrentPage -1)" class="page-link">@(Model.CurrentPage - 1)</a>
+                        <a asp-page="/Management/Teams/Index/@Model.OwnerId/@Model.OwnerName" asp-route-CurrentPage="@(Model.CurrentPage -1)" class="page-link">@(Model.CurrentPage - 1)</a>
                     </li>
                     <li class="page-item @(!Model.ShowPrevious? "disabled":"disabled")">
-                        <a asp-page="/Management/Teams/Index" asp-route-CurrentPage="@(Model.CurrentPage)" class="page-link">@(Model.CurrentPage)</a>
+                        <a asp-page="/Management/Teams/Index/@Model.OwnerId/@Model.OwnerName" asp-route-CurrentPage="@(Model.CurrentPage)" class="page-link">@(Model.CurrentPage)</a>
                     </li>
                     <li class="page-item  @(!Model.ShowNext? "disabled":"")">
-                        <a asp-page="/Management/Teams/Index" asp-route-CurrentPage="@(Model.CurrentPage + 1)" class="page-link">@(Model.CurrentPage + 1)</a>
+                        <a asp-page="/Management/Teams/Index/@Model.OwnerId/@Model.OwnerName" asp-route-CurrentPage="@(Model.CurrentPage + 1)" class="page-link">@(Model.CurrentPage + 1)</a>
                     </li>
                 }
                 else
                 {
                     <li class="page-item @(!Model.ShowPrevious? "disabled":"")">
-                        <a asp-page="/Management/Teams/Index" asp-route-CurrentPage="@(Model.CurrentPage -1)" class="page-link">@(Model.CurrentPage - 1)</a>
+                        <a asp-page="/Management/Teams/Index/@Model.OwnerId/@Model.OwnerName" asp-route-CurrentPage="@(Model.CurrentPage -1)" class="page-link">@(Model.CurrentPage - 1)</a>
                     </li>
                     <li class="page-item @(!Model.ShowPrevious? "disabled":"disabled")">
-                        <a asp-page="/Management/Teams/Index" asp-route-CurrentPage="@(Model.CurrentPage)" class="page-link">@(Model.CurrentPage)</a>
+                        <a asp-page="/Management/Teams/Index/@Model.OwnerId/@Model.OwnerName" asp-route-CurrentPage="@(Model.CurrentPage)" class="page-link">@(Model.CurrentPage)</a>
                     </li>
                 }
 
             }
 
             <li class="page-item  @(!Model.ShowLast? "disabled":"")">
-                <a asp-page="/Management/Teams/Index" asp-route-CurrentPage="@Model.TotalPages" class="page-link">  <i class="nav-icon icon-control-end"></i></a>
+                <a asp-page="/Management/Teams/Index/@Model.OwnerId/@Model.OwnerName" asp-route-CurrentPage="@Model.TotalPages" class="page-link">  <i class="nav-icon icon-control-end"></i></a>
             </li>
         </ul>
     </nav>

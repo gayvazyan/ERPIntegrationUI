@@ -44,20 +44,8 @@ namespace ERP.IntegrationUI.Pages.Management.TeamApplications
         //END Part Paging
 
 
-        //private async void SetOwnerName(Guid id)
-        //{
-        //    var owners = await _ownerRepasitory.GetOwnersAsync();
-
-        //    var ownerName = owners?.FirstOrDefault(p => p.Id == id).Name;
-        //    if (!string.IsNullOrWhiteSpace(ownerName))
-        //    {
-        //        OwnerName = ownerName;
-        //    }
-        //}
-
         protected async Task PrepareDataAsync(Guid teamIdentificator)
         {
-            // SetOwnerName(id);
 
             var teamApplicationList = await _teamApplicationRepasitory.GetTeamApplicationsAsync(teamIdentificator);
 

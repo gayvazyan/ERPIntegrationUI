@@ -28,6 +28,8 @@ namespace ERP.IntegrationUI.Pages.Management.Teams
         public InputModel Input { get; set; }
 
         [BindProperty]
+        public Guid OwnerId { get; set; }
+        [BindProperty]
         public string OwnerName { get; set; }
 
         public List<InputModel> InputList;
@@ -49,22 +51,13 @@ namespace ERP.IntegrationUI.Pages.Management.Teams
         public bool ShowLast => CurrentPage != TotalPages;
         //END Part Paging
 
-        private async void SetOwnerName(Guid id)
+
+        protected async Task PrepareDataAsync(Guid id,string ownerName)
         {
-            var owners = await _ownerRepasitory.GetOwnersAsync();
+            OwnerId = id;
+            OwnerName = ownerName;
 
-            var ownerName = owners?.FirstOrDefault(p => p.Id == id).Name;
-            if (!string.IsNullOrWhiteSpace(ownerName))
-            {
-                OwnerName = ownerName;
-            }
-        }
-
-        protected async Task PrepareDataAsync(Guid id)
-        {
-            SetOwnerName(id);
-
-             var allTeamList = await _teamRepasitory.GetTeamsAsync();
+            var allTeamList = await _teamRepasitory.GetTeamsAsync();
             var teamList = allTeamList.Where(p => p.OwnerId == id).ToList();
 
             if (Input.Description != null)
@@ -73,7 +66,7 @@ namespace ERP.IntegrationUI.Pages.Management.Teams
             }
             if (Input.Name != null)
             {
-                teamList = teamList.Where(p => p.Description.ToUpper().Contains(Input.Name.ToUpper())).ToList();
+                teamList = teamList.Where(p => p.Name.ToUpper().Contains(Input.Name.ToUpper())).ToList();
             }
 
 
@@ -101,15 +94,15 @@ namespace ERP.IntegrationUI.Pages.Management.Teams
         }
 
 
-        public async Task<ActionResult> OnGet(Guid id)
+        public async Task<ActionResult> OnGet(Guid id,string name)
         {
-            await PrepareDataAsync(id);
+            await PrepareDataAsync(id, name);
             return Page();
         }
 
         public async Task<ActionResult> OnPost()
         {
-            //await PrepareDataAsync();
+            await PrepareDataAsync(OwnerId,OwnerName);
             return Page();
         }
     }
