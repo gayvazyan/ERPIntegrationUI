@@ -1,5 +1,8 @@
-﻿using ERP.IntegrationUI.Models.Integration;
+﻿using ERP.IntegrationUI.Models;
+using ERP.IntegrationUI.Models.Integration;
 using Newtonsoft.Json;
+using System.Net;
+using System.Text;
 
 namespace ERP.IntegrationUI.Repositories.TeamApplicationMethod
 {
@@ -30,6 +33,18 @@ namespace ERP.IntegrationUI.Repositories.TeamApplicationMethod
             var teamApplicationMethodsList = JsonConvert.DeserializeObject<List<TeamApplicationMethodReadModel>>(result);
 
             return teamApplicationMethodsList;
+        }
+
+        public async Task<HttpStatusCode> AddTeamApplicationMethodAsync(TeamApplicationMethodJsonModel teamApplicationMethod)
+        {
+            string json = JsonConvert.SerializeObject(teamApplicationMethod, Formatting.Indented);
+            var data = new StringContent(json, Encoding.UTF8, "application/json");
+            var client = new HttpClient();
+            client.DefaultRequestHeaders.Add("access_token", _httpContextAccessor.HttpContext.Session.GetString("token"));
+            var response = await client.PostAsync("https://app-erp-integration-dev.azurewebsites.net/api/v1.0/management/AddTeamApplicationMethod?api-version=1.0", data);
+            var result = await response.Content.ReadAsStringAsync();
+
+            return response.StatusCode;
         }
     }
 }

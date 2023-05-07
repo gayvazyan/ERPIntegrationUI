@@ -28,7 +28,14 @@ namespace ERP.IntegrationUI.Pages.Management.TeamApplicationMethods
             InputList = new List<InputModel>();
             _ownerRepasitory = ownerRepasitory;
         }
+        [BindProperty]
+        public Guid OwnerId { get; set; }
 
+        [BindProperty]
+        public Guid TeamId { get; set; }
+
+        [BindProperty]
+        public Guid TeamApplicationId { get; set; }
 
         [BindProperty]
         public InputModel Input { get; set; }
@@ -55,20 +62,12 @@ namespace ERP.IntegrationUI.Pages.Management.TeamApplicationMethods
         public bool ShowLast => CurrentPage != TotalPages;
         //END Part Paging
 
-        //private async void SetOwnerName(Guid id)
-        //{
-        //    var owners = await _ownerRepasitory.GetOwnersAsync();
 
-        //    var ownerName = owners?.FirstOrDefault(p => p.Id == id).Name;
-        //    if (!string.IsNullOrWhiteSpace(ownerName))
-        //    {
-        //        OwnerName = ownerName;
-        //    }
-        //}
-
-        protected async Task PrepareDataAsync(Guid teamApplicationId)
+        protected async Task PrepareDataAsync(Guid ownerId, Guid teamId, Guid teamApplicationId,Guid applicationId)
         {
-            //SetOwnerName(id);
+            TeamId = teamId;
+            OwnerId = ownerId;
+            TeamApplicationId = applicationId;
 
             var allApplicationMethodList = await _teamApplicationMethodRepasitory.GetTeamApplicationMethodsAsync();
             var teamApplicationMethodList = allApplicationMethodList.Where(p => p.TeamApplicationId == teamApplicationId).ToList();
@@ -98,9 +97,9 @@ namespace ERP.IntegrationUI.Pages.Management.TeamApplicationMethods
         }
 
 
-        public async Task<ActionResult> OnGet(Guid teamApplicationId)
+        public async Task<ActionResult> OnGet(Guid ownerId, Guid teamId, Guid teamApplicationId, Guid applicationId)
         {
-            await PrepareDataAsync(teamApplicationId);
+            await PrepareDataAsync(ownerId,teamId, teamApplicationId, applicationId);
             return Page();
         }
 

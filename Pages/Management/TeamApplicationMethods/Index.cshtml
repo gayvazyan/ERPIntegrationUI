@@ -1,4 +1,4 @@
-﻿@page "{teamApplicationId:Guid}"
+﻿@page "{ownerId:Guid}/{teamId:Guid}/{teamApplicationId:Guid}/{applicationId:Guid}"
 @model ERP.IntegrationUI.Pages.Management.TeamApplicationMethods.IndexModel
 
 @inject IHttpContextAccessor HttpContextAccessor
@@ -13,11 +13,12 @@
 {
     <form method="post" id="form">
         <input type="hidden" asp-for="@Model.CurrentPage" value="@Model.CurrentPage" />
+        <input type="hidden" asp-for="@Model.OwnerId" value="@Model.OwnerId" />
+        <input type="hidden" asp-for="@Model.TeamId" value="@Model.TeamId" />
         <div class="card margin-top-20">
             @* ----- START Toolbar ---- *@
             <div class="card-header" style="padding:5px;">
-                <a href="/Management/TeamApplicationMethods/Create" class="btn btn-success" title="Ավելացնել">  <i class="nav-icon icon-plus"></i> Ավելացնել</a>
-                <a class="btn btn-info" title="Owner"> <i class="nav-icon icon-user"></i> Owner - @Model.OwnerName</a>
+                <a href="/Management/TeamApplicationMethods/Create/@Model.OwnerId/@Model.TeamId/@Model.TeamApplicationId" class="btn btn-success" title="Ավելացնել">  <i class="nav-icon icon-plus"></i> Ավելացնել</a>
                 <div class="card-header-actions" style="margin-right:5px;">
                     <a class=" btn btn-secondary text-white" data-toggle="collapse" data-target="#collapseSearch" aria-expanded="true">
                         <i class="nav-icon icon-magnifier"></i>
@@ -52,9 +53,9 @@
                         <tr style="text-align:center;color:black">
                             <td><b>MethodName</b></td>
                             <td><b>MethodType</b></td>
-                            <td><b>IsAutomaticJob</b></td>
-
-                            <td class="commands"><b>Հրամաններ</b></td>
+                      @*      <td><b>IsAutomaticJob</b></td>*@
+@*
+                            <td class="commands"><b>Հրամաններ</b></td>*@
                         </tr>
                     </thead>
                     <tbody>
@@ -63,23 +64,23 @@
                             <tr style="text-align:center;color:black">
                                 <td>@item.MethodName</td>
                                 <td>@item.MethodType</td>
-                                @if (item.IsAutomaticJob == true)
+                               @* @if (item.IsAutomaticJob == true)
                                 {
                                     <td><i class="nav-icon icon-check"></i></td>
                                 }
                                 else
                                 {
                                     <td></td>
-                                }
+                                }*@
 
-                                <td style="min-width:200px" class="commands">
+                                @*<td style="min-width:200px" class="commands">
                                     <a class="btn btn-info text-white" href="/Management/TeamApplicationMethods/Update/@item.Id" title="Խմբագրել">
                                         <i class="nav-icon icon-pencil"></i>
                                     </a>
                                     <a class="btn btn-danger" href="/Management/TeamApplicationMethods/Delete/@item.Id" title="Հեռացնել">
                                         <i class="nav-icon icon-trash"></i>
                                     </a>
-                                </td>
+                                </td>*@
                             </tr>
                         }
                     </tbody>

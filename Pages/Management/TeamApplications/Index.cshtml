@@ -75,13 +75,13 @@
 
                                     @if (item.TeamApplicationMethods?.Count() > 0)
                                     {
-                                        <a class="btn btn-success text-white" href="/Management/TeamApplicationMethods/@item.Id" title="View TeamApplicationMethods">
+                                        <a class="btn btn-success text-white" href="/Management/TeamApplicationMethods/@Model.OwnerId/@Model.TeamId/@item.Id/@item.ApplicationId" title="View TeamApplicationMethods">
                                             <i class="nav-icon icon-user"></i> TeamApplicationMethods (@item.TeamApplicationMethods?.Count())
                                         </a>
                                     }
                                     else
                                     {
-                                        <a class="btn btn-success text-white" href="/Management/TeamApplicationMethods/Create/" title="Ավելացնել ApplicationMethods">
+                                        <a class="btn btn-success text-white" href="/Management/TeamApplicationMethods/Create/@Model.OwnerId/@Model.TeamId/@item.ApplicationId" title="Ավելացնել ApplicationMethods">
                                             <i class="nav-icon icon-plus"></i> Ավելացնել ApplicationMethods
                                         </a>
                                     }

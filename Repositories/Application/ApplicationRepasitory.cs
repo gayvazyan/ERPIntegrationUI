@@ -32,5 +32,18 @@ namespace ERP.IntegrationUI.Repositories.Application
 
             return applicationsList;
         }
+
+        public async Task<List<ApplicationMethodReadModel>> GetAllApplicationMethodsAsync(Guid applicationId)
+        {
+            var client = new HttpClient();
+            client.DefaultRequestHeaders.Add("access_token", _httpContextAccessor.HttpContext.Session.GetString("token"));
+            string url = "https://app-erp-integration-dev.azurewebsites.net/api/v1.0/management/GetAllApplicationMethods?ApplicationId="+ applicationId.ToString();
+            var response = await client.GetAsync(url);
+            var result = await response.Content.ReadAsStringAsync();
+
+            var applicationMethods = JsonConvert.DeserializeObject<List<ApplicationMethodReadModel>>(result);
+
+            return applicationMethods;
+        }
     }
 }
