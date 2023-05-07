@@ -20,6 +20,14 @@ namespace ERP.IntegrationUI.Pages.Management.TeamApplications
             InputList = new List<InputModel>();
         }
 
+        [BindProperty]
+        public Guid OwnerId { get; set; }
+
+        [BindProperty]
+        public string? OwnerName { get; set; }
+
+        [BindProperty]
+        public Guid TeamId { get; set; }
 
         [BindProperty]
         public InputModel Input { get; set; }
@@ -44,9 +52,11 @@ namespace ERP.IntegrationUI.Pages.Management.TeamApplications
         //END Part Paging
 
 
-        protected async Task PrepareDataAsync(Guid teamIdentificator)
+        protected async Task PrepareDataAsync(string ownerName,Guid ownerId,Guid teamIdentificator)
         {
-
+            OwnerName = ownerName;
+            OwnerId = ownerId;
+            TeamId = teamIdentificator;
             var teamApplicationList = await _teamApplicationRepasitory.GetTeamApplicationsAsync(teamIdentificator);
 
             if (Input.ApplicationName != null)
@@ -80,9 +90,9 @@ namespace ERP.IntegrationUI.Pages.Management.TeamApplications
         }
 
 
-        public async Task<ActionResult> OnGet(Guid teamIdentificator)
+        public async Task<ActionResult> OnGet(string ownerName,Guid ownerId, Guid teamIdentificator)
         {
-            await PrepareDataAsync(teamIdentificator);
+            await PrepareDataAsync(ownerName,ownerId, teamIdentificator);
             return Page();
         }
 

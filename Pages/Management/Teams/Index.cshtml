@@ -88,14 +88,14 @@
                                 <td style="min-width:200px" class="commands">
                                     @if (item.TeamApplications?.Count() > 0)
                                     {
-                                        <a class="btn btn-success text-white" href="/Management/TeamApplications/@item.TeamIdentificator" title="View TeamApplications">
+                                        <a class="btn btn-success text-white" href="/Management/TeamApplications/@Model.OwnerName/@Model.OwnerId/@item.TeamIdentificator" title="View TeamApplications">
                                            TeamApplications (@item.TeamApplications?.Count())
                                         </a>
                                     }
                                     else
                                     {
-                                        <a class="btn btn-success text-white" href="/Management/TeamApplications/Create/@item.Id" title="Ավելացնել Team">
-                                            <i class="nav-icon icon-plus"></i> Ավելացնել Team Application
+                                        <a class="btn btn-success text-white" href="/Management/TeamApplications/Create/@item.OwnerId/@item.Id" title="Ավելացնել Application">
+                                            <i class="nav-icon icon-plus"></i> Ավելացնել Application
                                         </a>
                                     }
 

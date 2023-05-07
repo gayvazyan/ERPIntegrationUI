@@ -9,7 +9,7 @@ namespace ERP.IntegrationUI.Models.Integration
     {
         public Guid Id { get; set; }
 
-        //public Guid TeamId { get; set; }
+        public Guid TeamId { get; set; }
 
         public Guid ApplicationId { get; set; }
 

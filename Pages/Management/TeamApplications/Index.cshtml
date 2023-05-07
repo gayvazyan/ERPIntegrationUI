@@ -1,4 +1,4 @@
-﻿@page "{teamIdentificator:Guid}"
+﻿@page "{ownerName}/{ownerId:Guid}/{teamIdentificator:Guid}"
 @model ERP.IntegrationUI.Pages.Management.TeamApplications.IndexModel
 
 @inject IHttpContextAccessor HttpContextAccessor
@@ -16,7 +16,8 @@
         <div class="card margin-top-20">
             @* ----- START Toolbar ---- *@
             <div class="card-header" style="padding:5px;">
-                <a href="/Management/TeamApplications/Create" class="btn btn-success" title="Ավելացնել">  <i class="nav-icon icon-plus"></i> Ավելացնել</a>
+                <a href="/Management/TeamApplications/Create/@Model.OwnerId/@Model.TeamId" class="btn btn-success" title="Ավելացնել/Հեռացնել">  <i class="nav-icon icon-plus"></i> Ավելացնել/Հեռացնել</a>
+                <a class="btn btn-info" title="Owner"> Owner name - <b>@Model.OwnerName</b></a>
                 <div class="card-header-actions" style="margin-right:5px;">
                     <a class=" btn btn-secondary text-white" data-toggle="collapse" data-target="#collapseSearch" aria-expanded="true">
                         <i class="nav-icon icon-magnifier"></i>
@@ -77,17 +78,22 @@
                                         <a class="btn btn-success text-white" href="/Management/TeamApplicationMethods/@item.Id" title="View TeamApplicationMethods">
                                             <i class="nav-icon icon-user"></i> TeamApplicationMethods (@item.TeamApplicationMethods?.Count())
                                         </a>
-
+                                    }
+                                    else
+                                    {
+                                        <a class="btn btn-success text-white" href="/Management/TeamApplicationMethods/Create/" title="Ավելացնել ApplicationMethods">
+                                            <i class="nav-icon icon-plus"></i> Ավելացնել ApplicationMethods
+                                        </a>
                                     }
 
 
-                                    <a class="btn btn-info text-white" href="/Management/TeamApplications/Update/@item.Id" title="Խմբագրել">
+                                   @* <a class="btn btn-info text-white" href="/Management/TeamApplications/Update/@item.Id" title="Խմբագրել">
                                         <i class="nav-icon icon-pencil"></i>
-                                    </a>
+                                    </a>*@
 
-                                    <a class="btn btn-danger" href="/Management/TeamApplications/Delete/@item.Id" title="Հեռացնել">
+                                    @*<a class="btn btn-danger" href="/Management/TeamApplications/Delete/@item.Id" title="Հեռացնել">
                                         <i class="nav-icon icon-trash"></i>
-                                    </a>
+                                    </a>*@
                                 </td>
                             </tr>
                         }

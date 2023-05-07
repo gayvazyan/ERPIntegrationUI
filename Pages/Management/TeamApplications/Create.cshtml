@@ -1,0 +1,103 @@
+﻿@page "{ownerId:Guid}/{teamId:Guid}"
+@model ERP.IntegrationUI.Pages.Management.TeamApplications.CreateModel
+
+
+
+
+@inject IHttpContextAccessor HttpContextAccessor
+@{
+    ViewData["Title"] = "Ավելացնել/Հեռացնել Application";
+    Layout = "/Pages/Shared/_LayoutAdmin.cshtml";
+}
+
+@if (HttpContextAccessor.HttpContext.Session.GetString("token") != string.Empty)
+{
+    <form method="post" enctype="multipart/form-data">
+        <input type="hidden" asp-for="@Model.OwnerId" value="@Model.OwnerId" />
+        <input type="hidden" asp-for="@Model.TeamId" value="@Model.TeamId" />
+        <input type="hidden" asp-for="@Model.OwnerName" value="@Model.OwnerName" />
+        <input type="hidden" asp-for="@Model.Applications" value="@Model.Applications" />
+
+        <div class="card card-input">
+            <div class="card-body p-0 d-flex align-items-center">
+                <i class="nav-icon icon-check bg-success p-4 px-5 font-2xl mr-3 text-white"></i>
+                <div>
+                    <div class="text-value-sm text-info">@ViewData["Title"]</div>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-body row">
+                <div class="m-3 p-3 w-100" style="max-width:900px">
+                    <div>
+                        <partial name="_ValidationSummary" />
+                        @if (Model.Errors.Count > 0)
+                        {
+                            <div class="alert alert-danger" role="alert">
+                                <ul>
+                                    @foreach (var error in Model.Errors)
+                                    {
+                                        <li>@error.Code: @error.Description</li>
+                                    }
+                                </ul>
+                            </div>
+                        }
+                    </div>
+
+                    <div class="row">
+                        <div class="col-12 mt-2">
+                            <label class="text-info" asp-for="SelectedApplicationIds">Ընտրեք Application <span class="text-danger">*</span></label>
+                            <select id="selectValue" class="mul-select form-control" multiple="true" asp-for="SelectedApplicationIds">
+                                @foreach (var item in Model.Applications)
+                                {
+                                    var selectedValue = @item.Id;
+                                    <option value="@selectedValue">@item.Name</option>
+                                }
+                            </select>
+                            <span asp-validation-for="SelectedApplicationIds" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <br />
+
+                    <div style="height:20px"></div>
+                    <div class="row border-top margin-top-20" style="padding-top:20px">
+                        <div class="col-12">
+                            <button class="btn btn-success text-white"> <i class="nav-icon icon-check"></i> Պահպանել</button>
+                            <a class="btn btn-secondary" asp-page="/Management/Owners/Index"> <i class="nav-icon icon-close"></i> Չեղարկել</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+
+}
+
+else
+{
+    <div class="alert alert-danger m-3" role="alert">
+        <h5>Այս տվյալներին հասանելիություն չունեք։</h5>
+    </div>
+}
+
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $(".mul-select").select2({
+                placeholder: " -- ընտրել --", //placeholder
+                tags: true,
+                tokenSeparators: ['/', ',', ';', " "]
+            });
+
+            $(".one-select").select2({
+                placeholder: " -- ընտրել --", //placeholder
+                tags: true,
+                tokenSeparators: ['/', ',', ';', " "]
+            });
+        });
+    </script>
+}
+
+
+
